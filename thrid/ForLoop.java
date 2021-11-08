@@ -3,18 +3,16 @@ import java.util.Scanner;
 public class ForLoop {
     static Scanner scn = new Scanner(System.in);
     public static void main(String[] args) throws Exception {
-        
-        Boolean reTry = true;
 
         //for문으로 루프
-        for(;reTry==true;){
+        for(Boolean reTry = true;reTry==true;){
             String name = inputName();
             int score = inputScore(name);
             String grade = getGradeCount(score);
             System.out.println(name + "의 등급은 " + grade + "입니다.");
             String reTake = shouldReTake(grade);
             System.out.println(name + "은 재수강이 " + reTake + "입니다.");
-            reTry = inputReTry();
+            reTry = inputReTry(reTake);
         }
         
     }
@@ -89,20 +87,25 @@ public class ForLoop {
     }
 
     //4. 재수강 권장, 필요 시 다시 진행
-    static Boolean inputReTry(){
+    static Boolean inputReTry(String reTake){
+        
+        if(reTake == "재수강 권장" || reTake == "재수강 필요"){
 
-        System.out.println("다시 확인하시겠습니까?(Y/N)");
+            System.out.println("다시 확인하시겠습니까?(Y/N)");
             
-        String reTry = scn.nextLine();
-        scn.nextLine();
+            String reTry = scn.nextLine();
+            scn.nextLine();
 
-        if(reTry.equals("Y")){
-            return true;
-        }else if(reTry.equals("N")){
-            return false;
+            if(reTry.equals("Y")){
+                return true;
+            }else if(reTry.equals("N")){
+                return false;
+            }else{
+                System.out.println("Y와 N 중 입력하시지 않아 자동으로 취소됩니다.");
+                return true;
+            }
         }else{
-            System.out.println("Y와 N 중 입력하시지 않아 자동으로 취소됩니다.");
-            return true;
+            return false;
         }
 
     }
