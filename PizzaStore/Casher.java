@@ -3,10 +3,6 @@ import java.util.Scanner;
 public class Casher {
 
     int income; //가게 돈
-    int price = 1000; //피자 가격
-    Pizza pz; //피자 불러오기
-    Chef ch; //셰프 불러오기
-    Server sv; //서버 불러오기
     Scanner scn = new Scanner(System.in); //스캐너 불러오기
 
     //인사하기
@@ -17,7 +13,7 @@ public class Casher {
     }
 
     //주문받기
-    void getOrder(Customer cu){
+    void getOrder(Customer cu) throws Exception{
 
         System.out.println(cu.name() + "님, 주문하시겠습니까?(Y/N)");
 
@@ -25,43 +21,69 @@ public class Casher {
         scn.nextLine();
 
         if(order.equals("Y")){
-            getSomething();
-            askPay(cu, price);
-            ch.makePizza();
-            sv.serving(cu);   
-        }else if(order.equals("N")){
+            
+            Order od = new Order(); //주문서 만들기
+
+            //기본 피자 가격 +1000
+            int price = makeOrder(od) + 1000;
+            
+            askPay(cu, price); //price는 위의 1000원을 가져옴
+
+            return od;   
+        }else{
             System.out.println("나가시는 문은 왼쪽입니다.");
+
+            return null;
         }
                 
     }
 
-    int getSomething(){
+    //주문 받기
+    int makeOrder(Order od){
+        
+        int price = 0;
 
-        Pizza pz = new Pizza();
+        //치즈받기
+        System.out.println("치즈 양을 선택해주세요.(10/20/50)");
+        od.amountCheese = scn.nextInt();
+        scn.nextLine();
 
-        pz.addCheese();
+        //올리브받기
+        System.out.println("올리브를 넣을까요?(Y/N)(500원 추가)");
+        String addOlive = scn.nextLine();
+        scn.nextLine();
 
-        pz.addOlive();
-
-        if(pz.olive == true){
-            price += 500;
-        }else{
+        if(addOlive.equals("Y")){
+            od.putOlive = true;
+            price += 500;            
+        }else if(addOlive.equals("N")){
+            od.putOlive = false;
             System.out.println("올리브는 안 넣겠습니다.");
         }
 
-        pz.addBeaf();
+        //불고기받기
+        System.out.println("불고기를 넣을까요?(Y/N)(1000원 추가)");
+        String addBeaf = scn.nextLine();
+        scn.nextLine();
 
-        if(pz.beaf == true){
+        if(addBeaf.equals("Y")){
+            od.putBeaf = true;
             price += 1000;
-        }else{
+        }else if(addBeaf.equals("N")){
+            od.putBeaf = false;
             System.out.println("불고기는 안 넣겠습니다.");
         }
 
-        pz.addPepperoni();
-        
-        if(pz.pepperoni == true){
+        //페퍼로니 받기
+        System.out.println("페퍼로니를 넣을까요?(Y/N)(1500원 추가)");
+        String addPepperoni = scn.nextLine();
+        scn.nextLine();
+
+        if(addPepperoni.equals("Y")){
+            od.putPepperoni = true;
             price += 1500;
-        }else{
+        }else if(addPepperoni.equals("N")){
+            od.putPepperoni = false;
             System.out.println("페퍼로니는 안 넣겠습니다.");
         }
 
@@ -71,7 +93,7 @@ public class Casher {
     
 
     //수입 증가 확인
-    void askPay(Customer cu, int price){
+    void askPay(Customer cu, int price) throws Exception{
 
         System.out.println("피자의 가격은 "+price+"입니다.");
         income += cu.pay(price);
