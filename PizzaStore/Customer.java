@@ -3,15 +3,13 @@ import java.util.Scanner;
 public class Customer {
 
     String name;
-    int money;
-    int moreMoney;
-    int addMoney;
-
+    
     Pizza pz; //피자 불러오기
-    String eatCheese;
-    String eatOlive;
-    String eatBeaf;
-    String eatPepperoni;
+
+    int cheese;
+    boolean olive;
+    boolean beaf;
+    boolean pepperoni;
     
     Scanner scn = new Scanner(System.in);
 
@@ -27,34 +25,37 @@ public class Customer {
     }
 
     //계산, 손님 거스름돈
-    int pay(int price){
+    int pay(int price) throws Exception{
 
         System.out.println("가지고 계신 금액을 입력해주세요.");
-        money = scn.nextInt();
-        scn.nextLine();
+        int money = scn.nextInt();
 
+        //예외 만들기
         if(money >= price){
+            
             System.out.println(price + "를 내겠습니다.");
             money = money - price;
-            System.out.println("남은 돈은 " + money + "입니다.");            
+            System.out.println("남은 돈은 " + money + "입니다.");   
+            
         }else{
-            moreMoney = money - price;
-            System.out.println("부족한 돈" + Math.abs(moreMoney) + " 보다 더 많은 금액을 입력해주세요.");
-            addMoney = scn.nextInt();
-
-            money = money + addMoney;
-            money = money - price;
-            System.out.println("남은 돈은 " + money + "입니다.");            
+            
+            Exception e = new Exception("가지고 있는 돈이 부족합니다.");
+            throw e;
+            
         }
 
         return price;
 
     }
 
-    //맛 평가 (값이 안 들어옴... ㅜㅜPizza나 Casher에는 값이 들어옴)
-    void eat(){
+    //맛 평가
+    void eat(Pizza pz){
 
-        Pizza pz = new Pizza();
+        //맛 표기 하는 문자열
+        String eatCheese;
+        String eatOlive;
+        String eatBeaf;
+        String eatPepperoni;
 
         if(pz.cheese <= 10){
             eatCheese = "치즈가 있네,";
