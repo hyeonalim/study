@@ -12,8 +12,6 @@ public class PizzaRestarant {
         this.sv = new Server();
         this.ch = new Chef();
         this.cs = new Casher();
-        this.cs.sv = this.sv;
-        this.cs.ch = this.ch;
 
       }
 
@@ -23,7 +21,17 @@ public class PizzaRestarant {
         Customer cst = new Customer();
 
         cs.hi();
-        cs.getOrder(cst);
+        
+        try{
+         
+            Order od = cs.getOrder(cst); //주문받기
+            Pizza pz = ch.makePizza(od); //피자 만들기
+            sv.serving(pz, cst);
+
+        } catch(Exception e){
+            
+            System.out.println("주문을 받는데서 실패했습니다.");
+        }
         
     }
 
@@ -41,7 +49,7 @@ public class PizzaRestarant {
             return false;
         }else{
             System.out.println("Y와 N 중 입력하시지 않아 자동으로 취소됩니다.");
-            return true;
+            return false;
         }
     }
 
