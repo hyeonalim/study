@@ -1,14 +1,14 @@
 public class App {
     public static void main(String[] args) throws Exception {
         
-        boolean next = true;
+        boolean works = true;
 
-        while(next == true){
+        while(works == true){
             
             //은행 진행
             Bank bk = new Bank();
             bk.run();
-            bk.inputNext();
+            works = bk.inputWork();
             
         }
 
