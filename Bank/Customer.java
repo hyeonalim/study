@@ -65,26 +65,17 @@ public class Customer {
     }
 
     //입금 원하는 금액
-    int dpSpend(int depositMoney) throws Exception{
+    int dpSpend(int depositMoney, Info info){
 
-        //예외 만들기
-        if(info.money >= depositMoney){
-                
-            System.out.println(info.money + "를 가지고 있습니다.");
-            info.money += depositMoney;                         
-                
-        }else{
-
-            Exception e = new Exception("가지고 있는 돈이 부족합니다.");
-            throw e;
-
-        }
+        System.out.println(info.money + "를 가지고 있습니다.");
+        info.money += depositMoney;                         
+        System.out.println(depositMoney + "원이 입금되어 은행에 돈을 " + info.money + "원 맡기셨습니다.");                         
 
         return info.money;
     }
 
     //출금 원하는 금액
-    int wdSpend(int withdrawMoney) throws Exception{
+    int wdSpend(int withdrawMoney, Info info) throws Exception{
 
         //예외 만들기
         if(info.money >= withdrawMoney){
