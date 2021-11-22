@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class PizzaRestarant {
@@ -24,8 +25,13 @@ public class PizzaRestarant {
         
         try{
          
-            Order od = cs.getOrder(cst); //주문받기
-            Pizza pz = ch.makePizza(od); //피자 만들기
+            ArrayList<Order> od = cs.getOrder(cst); //주문받기
+            ArrayList<Pizza> pz = new ArrayList<Pizza>(); //피자담기
+
+            for(int i = 0; i < od.size(); i++){
+                pz.add(ch.makePizza(od.get(i))); //피자 만들기
+            }
+            
             sv.serving(pz, cst);
 
         } catch(Exception e){
