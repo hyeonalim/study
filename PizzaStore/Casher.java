@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Casher {
@@ -22,10 +23,21 @@ public class Casher {
 
         if(order.equals("Y")){
             
-            Order od = new Order(); //주문서 만들기
+            ArrayList<Order> od = new ArrayList<Order>();
+            int price = 0;
 
-            //기본 피자 가격 +1000
-            int price = makeOrder(od) + 1000;
+            int x = 1;
+            while(true) {
+                System.out.println(x++ + "주문: ");
+                String orderEnd = scn.nextLine();
+                scn.nextLine();
+                if (orderEnd.equals("x")) {
+                    break;
+                }
+                Order pizzaOd = new Order();
+                price += makeOrder(pizzaOd) + 1000;
+                od.add(pizzaOd);
+            }
             
             askPay(cu, price); //price는 위의 1000원을 가져옴
 
