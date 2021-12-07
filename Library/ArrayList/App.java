@@ -8,10 +8,12 @@ public class App {
         ArrayList<Rental> rentals = new ArrayList<>();
 
         while(true){
-            //레스토랑 진행
             Library library = new Library();
-            library.run(members, books, rentals);
-        
+            try{
+                library.run(members, books, rentals);
+            } catch(Exception e){
+                System.out.println("숫자를 입력해주세요.");
+            }
         }   
 
     }
