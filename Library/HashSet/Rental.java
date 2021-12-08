@@ -1,56 +1,13 @@
 public class Rental {
     
-    String mname;
-    String bname;
+    String member;
+    String book;
 
     //this maker
-    public Rental(String mname, String bname){
+    public Rental(String member, String book){
         
-        this.mname = mname;
-        this.bname = bname;
-
-    }
-
-    public Rental(String bname2) {
-    }
-
-    //mnameequlas
-    public boolean mequals(Object o){
-        
-        if(o == this.mname){
-
-            return true;
-
-        }
-
-        if(!(o instanceof Rental)){
-        
-            return false;
-        
-        }
-
-        Rental r = (Rental) o;
-        return this.mname.equals(r.mname);
-
-    }
-
-    //bnameequlas
-    public boolean bequals(Object o){
-        
-        if(o == this.bname){
-
-            return true;
-
-        }
-
-        if(!(o instanceof Rental)){
-        
-            return false;
-        
-        }
-
-        Rental r = (Rental) o;
-        return this.bname.equals(r.bname);
+        this.member = member;
+        this.book = book;
 
     }
 
