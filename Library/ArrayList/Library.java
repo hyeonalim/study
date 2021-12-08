@@ -59,17 +59,17 @@ public class Library {
 
         //1. 새 도서
         System.out.println("새 도서명 입력");
-        String bname = scn.nextLine();
+        String book = scn.nextLine();
         scn.nextLine();
 
-        if(books.contains(bname) == true) {
+        if(books.contains(book) == true) {
 
             System.out.println("이미 있는 도서");
 
         }else {
-            books.add(bname);
+            books.add(book);
 
-            System.out.println(bname + "입고 완료");
+            System.out.println(book + "입고 완료");
 
         }
     }
@@ -78,17 +78,17 @@ public class Library {
 
         //2. 새 멤버
         System.out.println("새 멤버 입력");
-        String mname = scn.nextLine();
+        String member = scn.nextLine();
         scn.nextLine();
 
-        if(members.contains(mname) == true) {
+        if(members.contains(member) == true) {
         
             System.out.println("이미 있는 회원");
 
         }else {
-            members.add(mname);
+            members.add(member);
 
-            System.out.println(mname + "등록 완료");
+            System.out.println(member + "등록 완료");
 
         }
     }
@@ -97,20 +97,20 @@ public class Library {
 
         //3. 도서 대여
         System.out.println("회원명 입력");
-        String mname = scn.nextLine();
+        String member = scn.nextLine();
         scn.nextLine();
 
-        if(members.contains(mname) == false) {
+        if(members.contains(member) == false) {
 
             System.out.println("회원이 존재하지 않습니다.");
 
         }else {
 
             System.out.println("도서명 입력");
-            String bname = scn.nextLine();
+            String book = scn.nextLine();
             scn.nextLine();
 
-            if(books.contains(bname) == false) {
+            if(books.contains(book) == false) {
 
                 System.out.println("도서가 존재하지 않습니다.");
 
@@ -122,9 +122,9 @@ public class Library {
 
                     Rental r = rentals.get(i);
 
-                    if(r.bname.equals(bname)) {
+                    if(r.book.equals(book)) {
 
-                        if(r.mname.equals(mname)) {
+                        if(r.member.equals(member)) {
                             
                             System.out.println("이미 대여중이십니다.");
                             isRentaled = true;
@@ -132,7 +132,7 @@ public class Library {
 
                         }else {
                             
-                            System.out.println("죄송합니다. " + bname + "도서는 " + r.mname + "님이 대여하는 중입니다.");
+                            System.out.println("죄송합니다. " + book + "도서는 " + r.member + "님이 대여하는 중입니다.");
 
                             isRentaled = true;
                             break;
@@ -141,16 +141,10 @@ public class Library {
                 }
 
                 if(isRentaled != true){
-
-                    Rental rental = new Rental();
-
-                    rental.mname = mname;
-                    rental.bname = bname;
-                    rental.rental = "대여중";
-
-                    rentals.add(rental);
+                    
+                    rentals.add(new Rental(member, book));
                 
-                    System.out.println(mname + " 회원님이 " + bname + "도서를 대여하였습니다.");
+                    System.out.println(member + " 회원님이 " + book + "도서를 대여하였습니다.");
                 
                 }
 
@@ -163,20 +157,20 @@ public class Library {
 
         //4. 도서 반납
         System.out.println("회원명 입력");
-        String mname = scn.nextLine();
+        String member = scn.nextLine();
         scn.nextLine();
 
-        if(members.contains(mname) == false) {
+        if(members.contains(member) == false) {
 
             System.out.println("회원이 존재하지 않습니다.");
 
         }else {
 
             System.out.println("도서명 입력");
-            String bname = scn.nextLine();
+            String book = scn.nextLine();
             scn.nextLine();
 
-            if(books.contains(bname) == false) {
+            if(books.contains(book) == false) {
 
                 System.out.println("도서가 존재하지 않습니다.");
 
@@ -189,29 +183,25 @@ public class Library {
                     Rental r = rentals.get(i);
 
                     //대여한 책 찾기
-                    if(r.bname.equals(bname) == true) {
+                    if(r.book.equals(book) == true) {
 
-                        isRentaled = true;
-
-                        if(r.mname.equals(mname) == true) {
-
-                            r.bname = bname;
-                            r.mname = mname;
-                            r.rental = "대여중";
+                        if(r.member.equals(member) == true) {
 
                             rentals.remove(r);
 
-                            System.out.println(mname + "님이 대여하신 " + bname + "반납 완료");
+                            System.out.println(member + "님이 대여하신 " + book + "반납 완료");
                             break;
 
                         }else{
-                            System.out.println(bname + "은 " + r.mname + "님이 대여 중");
-                        }
-                    }
-                }
 
-                if(isRentaled != true){
-                    System.out.println("아무도 대여중이지 않습니다.");
+                            System.out.println(book + "은 " + r.member + "님이 대여 중");
+
+                        }
+                    }else{
+
+                        System.out.println("아무도 대여중이지 않습니다.");
+
+                    }
                 }
 
             }
@@ -222,10 +212,10 @@ public class Library {
 
         //5. 도서 삭제
         System.out.println("삭제 도서 입력");
-        String bname = scn.nextLine();
+        String book = scn.nextLine();
         scn.nextLine();
 
-        if(books.contains(bname) == true) {
+        if(books.contains(book) == true) {
 
             boolean hereBook = false;
 
@@ -233,9 +223,9 @@ public class Library {
 
                 Rental r = rentals.get(i);
 
-                if(r.bname.equals(bname)) {
+                if(r.book.equals(book)) {
 
-                    System.out.println(bname + " 빌리는 중이라 삭제 불가");
+                    System.out.println(book + " 빌리는 중이라 삭제 불가");
                     
                     hereBook = true;
                     break;
@@ -246,15 +236,15 @@ public class Library {
 
             if(hereBook != true) {
             
-                books.remove(bname);
+                books.remove(book);
 
-                System.out.println(bname + " 도서 삭제 완료");
+                System.out.println(book + " 도서 삭제 완료");
             
             }
 
         } else {
 
-            System.out.println(bname + "도서는 도서관에 없습니다.");
+            System.out.println(book + "도서는 도서관에 없습니다.");
 
         }
     }
@@ -263,10 +253,10 @@ public class Library {
 
         //6. 회원 삭제
         System.out.println("삭제할 회원명 입력");
-        String mname = scn.nextLine();
+        String member = scn.nextLine();
         scn.nextLine();
 
-        if(members.contains(mname) == true) {
+        if(members.contains(member) == true) {
 
             boolean hereMember = false;
 
@@ -274,9 +264,9 @@ public class Library {
 
                 Rental r = rentals.get(i);
 
-                if(r.mname.equals(mname)) {
+                if(r.member.equals(member)) {
 
-                    System.out.println(mname + " 회원님은 대여중이라 삭제 불가");
+                    System.out.println(member + " 회원님은 대여중이라 삭제 불가");
                     
                     hereMember = true;
                     break;
@@ -287,9 +277,9 @@ public class Library {
 
             if(hereMember != true) {
 
-                members.remove(mname);
+                members.remove(member);
 
-                System.out.println(mname + " 회원 삭제 완료");
+                System.out.println(member + " 회원 삭제 완료");
 
             }
         }else {
@@ -309,7 +299,7 @@ public class Library {
         }else {
 
             ArrayList<String> free = new ArrayList<>();
-            ArrayList<String> notFree = new ArrayList<>();
+            ArrayList<String> rentaling = new ArrayList<>();
 
             for(int i = 0; i < books.size(); i++) {
 
@@ -319,9 +309,9 @@ public class Library {
                     
                     Rental r = rentals.get(j);
                     
-                    if(r.bname.equals(books.get(i))) {
+                    if(r.book.equals(books.get(i))) {
 
-                        notFree.add(books.get(i));
+                        rentaling.add(books.get(i));
                         hereRentalFree = true;
 
                         break;
@@ -341,9 +331,9 @@ public class Library {
 
             }
 
-            for(int i = 0; i < notFree.size(); i++) {
+            for(int i = 0; i < rentaling.size(); i++) {
                 
-                System.out.println(notFree.get(i) + "(대여중)");
+                System.out.println(rentaling.get(i) + "(대여중)");
 
             }
 
@@ -372,7 +362,7 @@ public class Library {
                     
                     Rental r = rentals.get(j);
                     
-                    if(r.bname.equals(books.get(i))) {
+                    if(r.book.equals(books.get(i))) {
 
                         hereRentalFree = true;
 
@@ -383,6 +373,7 @@ public class Library {
                 if(hereRentalFree != true) {
                     
                     free.add(books.get(i));
+                    
                 }
             }
 
