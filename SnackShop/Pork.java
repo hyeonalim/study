@@ -1,4 +1,4 @@
-public class Pork extends Maker {
+public class Pork extends Food {
     
     boolean pork = true;
 }
