@@ -26,21 +26,9 @@ public class Customer {
 
     }
 
-    void eat(String kind){
+    void eat(Menu m){
 
-        if(kind.equals("김밥")){
-
-            System.out.println(kind + "이 밥이 맛있네요.");
-
-        }else if(kind.equals("돈까스")){
-
-            System.out.println(kind + "이 바삭하네요.");
-
-        }else if(kind.equals("라면")){
-
-            System.out.println(kind + "꼬들거리네요.");
-
-        }
+        System.out.println(m.taste() + "이네요.");
 
     }
 }
