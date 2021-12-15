@@ -3,21 +3,14 @@ import java.util.Scanner;
 
 public class Kiosk {
     
-    int income;
+    int income = 0;
     Scanner scn = new Scanner(System.in);
 
-    void hi(){
-        System.out.println("어서오세요, 주문해주세요.");
-    }
+    ArrayList<Order> run(Customer cu) throws Exception{
 
-    ArrayList<Cook> order(Customer cu) throws Exception{
-
-        boolean loop = true;
-        int i = -1;
-
-        ArrayList<Cook> cooks = new ArrayList<>();
+        ArrayList<Order> orders = new ArrayList<>();
         
-        while(loop){
+        while(true){
 
             System.out.println("1. 김밥류");
             System.out.println("2. 돈까스류");
@@ -29,77 +22,74 @@ public class Kiosk {
             String no = scn.nextLine();
             scn.nextLine();
 
-            Cook cook = new Cook();
+            try{
+                if(no.equals("1")){
 
-            if(no.equals("1")){
+                    kimbap();
 
-                kimbap(cooks, cook);
+                }else if(no.equals("2")){
 
-            }else if(no.equals("2")){
+                    pork();
 
-                pork(cooks, cook);
+                }else if(no.equals("3")){
 
-            }else if(no.equals("3")){
+                    ramen();
 
-                ramen(cooks, cook);
+                }else if(no.equals("ok")){
 
-            }else if(no.equals("ok")){
+                    if(cooks.size() > 0){
 
-                if(cooks.size() > 0){
-
-                    calculate(cooks, cu);
-                    System.out.println("쉐프에게 전달되어 요리중입니다.");
-
-                    loop = false;
-                    
-                }else{
-
-                    System.out.println("주문한 내역이 없습니다.");
-
-                }
-
+                        calculate(cooks, cu);
+                        System.out.println("쉐프에게 전달되어 요리중입니다.");
                 
-            }else if(no.equals("x")){
+                    }else{
+    
+                        System.out.println("주문한 내역이 없습니다.");
 
-                if(i > 0){
+                    }
 
-                    cooks.remove(i-1);
-                    i = i - 2;
+                }else if(no.equals("x")){
 
-                }else if(i == 0){
+                    if(orders.size() > 0){
+        
+                        cooks.remove(orders.size()-1);
+                            
+                    }else if(orders.size() == 0){
 
-                    cooks.remove(0);
-                    i = i - 2;
+                        cooks.remove(0);
+    
+                    }else{
+
+                        System.out.println("주문한 내역이 없습니다.");
+
+                    }
+
+                }else if(no.equals("Quit")){
+                    
+                    System.out.println("프로그램을 종료합니다.");
+                    System.exit(0);
 
                 }else{
 
-                    System.out.println("주문한 내역이 없습니다.");
+                    System.out.println("잘못 입력하셨습니다.");
 
                 }
+            }catch(InputMismatchException e){
+                
+                System.out.println("숫자를 입력해주세요.");
 
-            }else if(no.equals("Quit")){
-
-                loop = false;
-
-                SnackShop snackShop = new SnackShop();
-                snackShop.loop();
-
-            }else{
-
-                Exception e = new Exception();
-                throw e;
+            }catch(Exception e){
+            
+                System.out.println("금액 부족");
 
             }
-
-            i++;
-
         }
-
-        return cooks;
+     
+        return orders;
         
     }
 
-    void kimbap(ArrayList<Cook> cooks, Cook cook){
+    KimbapOrder kimbap() throws Exception{
 
         System.out.println("1. 참치김밥");
         System.out.println("2. 땡초김밥");
@@ -108,34 +98,35 @@ public class Kiosk {
         int no = scn.nextInt();
         scn.nextLine();
 
-        cook.kind = "김밥";
+         while(no < 1 || no > 3){
+            System.out.println("다시 눌러주세요.");
 
-        if(no == 1){
-            
-            cook.name = "참치";
-            cook.price = 2000;
+            System.out.println("1. 참치김밥");
+            System.out.println("2. 땡초김밥");
+            System.out.println("3. 야채김밥");
 
-        }else if(no == 2){
-
-            cook.name = "땡초";
-            cook.price = 2000;
-
-        }else if(no == 3){
-
-            cook.name = "야채";
-            cook.price = 1400;
+            no = scn.nextInt();
+            scn.nextLine();
 
         }
 
-        cook.num = num();
+        if(no == 1){
+            
+            return new TunaKimbapOrder(num());
 
-        cooks.add(cook);
+        }else if(no == 2){
 
-        System.out.println(cook);
+            return new TengchoKimbapOrder(num());
+
+        }else{
+
+            return new VegetableKimbapOrder(num());
+
+        }
 
     }
 
-    void pork(ArrayList<Cook> cooks, Cook cook){
+    PorkOrder pork() throws Exception{
         
         System.out.println("1. 치즈돈까스");
         System.out.println("2. 고구마돈까스");
@@ -144,34 +135,35 @@ public class Kiosk {
         int no = scn.nextInt();
         scn.nextLine();
 
-        cook.kind = "돈까스";
+        while(no < 1 || no > 3){
+            System.out.println("다시 눌러주세요.");
 
-        if(no == 1){
-            
-            cook.name = "치즈";
-            cook.price = 3000;
+            System.out.println("1. 치즈돈까스");
+            System.out.println("2. 고구마돈까스");
+            System.out.println("3. 생선까스");
 
-        }else if(no == 2){
-            
-            cook.name = "고구마";
-            cook.price = 3500;
-
-        }else if(no == 3){
-
-            cook.name = "생선";
-            cook.price = 2300;
+            no = scn.nextInt();
+            scn.nextLine();
 
         }
 
-        cook.num = num();
+        if(no == 1){
+            
+            return new CheesePorkOrder(num());
 
-        cooks.add(cook);
+        }else if(no == 2){
 
-        System.out.println(cook);
+            return new SweetPotatoPorkOrder(num());
+
+        }else{
+
+            return new FishPorkOrder(num());
+
+        }
         
     }
 
-    void ramen(ArrayList<Cook> cooks, Cook cook){
+    RamenOrder ramen() throws Exception{
 
         System.out.println("1. 부대찌개라면");
         System.out.println("2. 기본라면");
@@ -180,74 +172,64 @@ public class Kiosk {
         int no = scn.nextInt();
         scn.nextLine();
 
-        cook.kind = "라면";
+        while(no < 1 || no > 3){
+            System.out.println("다시 눌러주세요.");
 
-        if(no == 1){
-            
-            cook.name = "부대찌개";
-            cook.price = 3000;
+            System.out.println("1. 부대찌개라면");
+            System.out.println("2. 기본라면");
+            System.out.println("3. 치즈라면");
 
-        }else if(no == 2){
-
-            cook.name = "기본";
-            cook.price = 1000;
-
-        }else if(no == 3){
-
-            cook.name = "치즈";
-            cook.price = 1500;
+            no = scn.nextInt();
+            scn.nextLine();
 
         }
 
-        cook.num = num();
+        if(no == 1){
+            
+            return new BagStewRamenOrder(num());
 
-        cooks.add(cook);
+        }else if(no == 2){
 
-        System.out.println(cook);
-        
+            return new OriginRamenOrder(num());
+
+        }else{
+
+            return new CheeseRamenOrder(num());
+
+        }
     }
 
-    int num(){
+    int num() throws Exception{
 
         System.out.println("수량은?");
         int num = scn.nextInt();
         scn.nextLine();
 
+        while(num <= 0){
+            System.out.println("다시 눌러주세요.");
+
+            System.out.println("수량은?");
+            num = scn.nextInt();
+            scn.nextLine();
+    
+        }
+
         return num;
 
     }
+    
+    void calculate(ArrayList<Order> orders, Customer cu) throws Exception{
 
-    void calculate(ArrayList<Cook> cooks, Customer cu) throws Exception{
+        int totalPrice = 0;
 
-        int price = 0;
-        int kimbapNum = 0;
-        int porkNum = 0;
-        int ramenNum = 0;
-
-        for(int i = 0; i < cooks.size(); i++){
+        for(Order o: orders){
             
-            Cook cook = cooks.get(i);
-
-            price += cook.price * cook.num;
-
-            if(cook.kind.equals("김밥")){
-
-                kimbapNum += cook.num;
-
-            }else if(cook.kind.equals("돈까스")){
-
-                porkNum += cook.num;
-
-            }else if(cook.kind.equals("라면")){
-
-                ramenNum += cook.num;
-
-            }
+            totalPrice += o.price * o.num;
 
         }
 
-        System.out.println("손님께서는 김밥 " + kimbapNum + "개, 돈까스 " + porkNum +" 개, 라면" + ramenNum + "개를 주문하셨습니다.");
-        System.out.println("총 금액은 " + price + "원입니다.");
+        System.out.println("총 금액은 " + totalPrice + "원입니다.");
+
         income += cu.pay(price);
 
     }
