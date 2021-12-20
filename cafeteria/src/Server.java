@@ -1,15 +1,18 @@
 import java.util.ArrayList;
 
+import Menu.Menu;
+
 public class Server {
- 
-    void serving(ArrayList<Menu> menus, Customer cu){
+    
+    void run(ArrayList<Menu> menus, Customer cu){
 
-        System.out.println("서빙중입니다.");
-
+        //list 크기에 맞게 각각의 맛 알려주기
+        
         for(Menu m: menus){
-            
+
             cu.eat(m);
 
         }
     }
+    
 }

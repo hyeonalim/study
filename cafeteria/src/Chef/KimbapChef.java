@@ -1,12 +1,23 @@
+package Chef;
+
+import Menu.Menu;
+import Menu.TengchoKimbap;
+import Menu.TunaKimbap;
+import Menu.VegetableKimbap;
+import Order.KimbapOrder;
+import Order.Order;
+import Order.TengchoKimbapOrder;
+import Order.TunaKimbapOrder;
+import Order.VegetableKimbapOrder;
+
 public class KimbapChef extends Chef {
-    
     public Menu makeFood(Order o) throws Exception{
+        
         if(!(o instanceof KimbapOrder)){
 
-            throw new Exception("김밥만 만들 수 있어요.");
-
+            System.out.println("김밥만 입력 가능");
         }
-
+        
         if(o instanceof TengchoKimbapOrder){
 
             return new TengchoKimbap();
@@ -22,8 +33,7 @@ public class KimbapChef extends Chef {
         }else{
 
             throw new Exception("레시피 x");
-
         }
-
     }
+    
 }
