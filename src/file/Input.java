@@ -1,16 +1,20 @@
 package file;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Scanner;
+import java.io.InputStreamReader;
 
 public class Input {
     
+    SideNoCheck sideNoCheck = new SideNoCheck();
+    Scn scn = new Scn();
+
     public void reader(String book, String member){
         System.out.println("1. 책 2. 회원");
 
-        int sideNo = sideNoCheck();
+        int sideNo = sideNoCheck.sideNoCheck();
 
         if(sideNo == 1){
 
@@ -30,19 +34,19 @@ public class Input {
     public void finder(String book, String member){
         System.out.println("1. 책 2. 회원");
 
-        int sideNo = sideNoCheck();
+        int sideNo = sideNoCheck.sideNoCheck();
 
         if(sideNo == 1){
 
-            System.out.println("책을 읽습니다.");
+            System.out.println("책을 찾습니다.");
 
-            readerBook(book);
+            finderBook(book);
 
         }else{
 
-            System.out.println("회원을 읽습니다.");
+            System.out.println("회원을 찾습니다.");
 
-            readerMember(member);
+            finderMember(member);
 
         }
     }
@@ -52,19 +56,31 @@ public class Input {
 
         try{
 
-            FileInputStream fio = new FileInputStream(book);
+            //1. FileInputStream 사용
+            /*FileInputStream fio = new FileInputStream(book);
             
             int r = -1;
 
             while((r = fio.read()) != -1){
 
-                System.out.print((char)r);
+                System.out.print((char)r); //한 자, 한 자 받아와서
 
                 if(r == '\r'){
 
                     System.out.println();
 
                 }
+            }*/
+
+            //2. BufferedReader 사용
+            //new BufferedReader(new InputStreamReader(new FileInputStream(book))
+            //BufferedReader: Reader를 매개변수로 받음
+            //InputStreamReader: InputStream을 매개변수로 받음
+            BufferedReader fio = new BufferedReader(new InputStreamReader(new FileInputStream(book)));
+            String line = null;
+
+            while((line = fio.readLine()) != null) {
+                System.out.println(line); //한줄로 받아올 수 있는 건 String이기 때문에
             }
 
             System.out.println();
@@ -92,7 +108,8 @@ public class Input {
 
         try{
 
-            FileInputStream fio = new FileInputStream(member);
+            //1. FileInputStream 사용
+            /*FileInputStream fio = new FileInputStream(member);
             
             int r = -1;
 
@@ -106,6 +123,14 @@ public class Input {
 
                 }
 
+            }*/
+
+            //2. BufferedReader 사용
+            BufferedReader fio = new BufferedReader(new InputStreamReader(new FileInputStream(member)));
+            String line = null;
+
+            while((line = fio.readLine()) != null) {
+                System.out.println(line); //한줄로 받아올 수 있는 건 String이기 때문에
             }
 
             System.out.println();
@@ -134,20 +159,24 @@ public class Input {
 
             try{
     
-                FileInputStream fio = new FileInputStream(book);
-                
-                Scanner scn = new Scanner(System.in);
-                String bookName = scn.nextLine();
-                scn.nextLine();
-
+                String bookName = scn.scnString();
                 String rString = "";
-                int r = -1;
 
                 boolean isNot = false; //유무 판단
+
+                //1. FileInputStream 사용
+                /*
+                FileInputStream fio = new FileInputStream(book);
+                
+                int r = -1;
     
                 while((r = fio.read()) != -1){
-    
-                    rString = String.valueOf((char)r);
+
+                    rString += String.valueOf((char)r);
+
+                    if(r == '\r'){
+                        rString = "";
+                    }
 
                     if(bookName.equals(rString)){
 
@@ -157,6 +186,22 @@ public class Input {
                         break;
                     }
 
+                }
+
+                */
+
+                //2. BufferedReader 사용
+                BufferedReader fio = new BufferedReader(new InputStreamReader(new FileInputStream(book)));
+                String line = null;
+
+                while((line = fio.readLine()) != null) {
+                    if(bookName.equals(line)){
+
+                        System.out.print(line + "을 찾았습니다.");
+                        isNot = true;
+
+                        break;
+                    }
                 }
 
                 if(isNot == false){
@@ -190,13 +235,12 @@ public class Input {
     
             try{
     
-                FileInputStream fio = new FileInputStream(member);
-                
-                Scanner scn = new Scanner(System.in);
-                String memberName = scn.nextLine();
-                scn.nextLine();
+                String memberName = scn.scnString();
 
                 boolean isNot = false; //유무 판단
+
+                //1. FileInputStream 사용
+                /*FileInputStream fio = new FileInputStream(member);
 
                 String rString = "";
                 int r = -1;
@@ -205,11 +249,31 @@ public class Input {
     
                     rString = String.valueOf((char)r);
                     
+                    if(r == '\r'){
+                        rString = "";
+                    }
+
                     if(memberName.equals(rString)){
 
                         System.out.print(rString + "을 찾았습니다.");
                         isNot = true;
 
+                    }
+                }
+
+                */
+
+                //2. BufferedReader 사용
+                BufferedReader fio = new BufferedReader(new InputStreamReader(new FileInputStream(member)));
+                String line = null;
+
+                while((line = fio.readLine()) != null) {
+                    if(memberName.equals(line)){
+
+                        System.out.print(line + "을 찾았습니다.");
+                        isNot = true;
+
+                        break;
                     }
                 }
 
@@ -238,25 +302,5 @@ public class Input {
             }
     
         }
-
-    //숫자 잘못 입력한 경우
-    private int sideNoCheck(){
-
-        Scn scn = new Scn();
-
-        System.out.println("1 또는 2 를 입력해주세요.");
-
-        int check = scn.scnInt();
-
-        while(check < 1 || check > 2){
-
-            System.out.println("1 또는 2 를 입력해주세요.");
-
-            check = scn.scnInt();
-
-        }
-
-        return check;
-    }
 
 }

@@ -5,10 +5,12 @@ import java.io.IOException;
 
 public class Create {
     
+    SideNoCheck sideNoCheck = new SideNoCheck();
+
     public void creater(String book, String member){
         System.out.println("1. 책 2. 회원");
 
-        int sideNo = sideNoCheck();
+        int sideNo = sideNoCheck.sideNoCheck();
 
         if(sideNo == 1){
 
@@ -68,23 +70,4 @@ public class Create {
 
     }
 
-    //숫자 잘못 입력한 경우
-    private int sideNoCheck(){
-
-        Scn scn = new Scn();
-
-        System.out.println("1 또는 2 를 입력해주세요.");
-
-        int check = scn.scnInt();
-
-        while(check < 1 || check > 2){
-
-            System.out.println("1 또는 2 를 입력해주세요.");
-
-            check = scn.scnInt();
-
-        }
-
-        return check;
-    }
 }

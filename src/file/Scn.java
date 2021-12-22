@@ -11,4 +11,11 @@ public class Scn {
 
         return n;
     }
+
+    public String scnString(){
+        String name = scn.nextLine();
+        scn.nextLine();
+
+        return name;
+    }
 }
