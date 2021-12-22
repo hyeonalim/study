@@ -18,7 +18,6 @@ public class LibraryFile {
 
             System.out.println("1. 읽기 2. 찾기 3. 쓰기 4. 만들기");
             int no = noCheck();
-            int sideNo = 0;
 
             if(no == 1){
 

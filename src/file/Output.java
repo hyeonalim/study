@@ -1,16 +1,19 @@
 package file;
 
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Scanner;
 
 public class Output {
+
+    SideNoCheck sideNoCheck = new SideNoCheck();
+    Scn scn = new Scn();
 
     public void writer(String book, String member){
         System.out.println("1. 책 2. 회원");
 
-        int sideNo = sideNoCheck();
+        int sideNo = sideNoCheck.sideNoCheck();
 
         if(sideNo == 1){
 
@@ -31,15 +34,19 @@ public class Output {
     private void writerBook(String book){
         try{
 
-            Scanner scn = new Scanner(System.in);
-            String bookName = scn.nextLine();
-            scn.nextLine();
-            
-            FileOutputStream fio = new FileOutputStream(book, true);
+            String bookName = scn.scnString();
+
+            //1. FileOutputStream 사용
+            /*FileOutputStream fio = new FileOutputStream(book, true);
             
             for(byte b: bookName.getBytes()){
                 fio.write(b);
-            }
+            }*/
+
+            //2. BufferedWriter 사용
+            //BufferedWriter: Writer를 매개변수로 받음
+            BufferedWriter fio = new BufferedWriter(new FileWriter(book, true));
+            fio.write(bookName);
 
             fio.write('\r');
             fio.close();
@@ -64,15 +71,18 @@ public class Output {
     private void writerMember(String member){
         try{
 
-            Scanner scn = new Scanner(System.in);
-            String memberName = scn.nextLine();
-            scn.nextLine();
+            String memberName = scn.scnString();
             
-            FileOutputStream fio = new FileOutputStream(member, true);
+            //1. FileOutputStream 사용
+            /*FileOutputStream fio = new FileOutputStream(member, true);
             
             for(byte b: memberName.getBytes()){
                 fio.write(b);
-            }
+            }*/
+
+            //2. BufferedWriter 사용
+            BufferedWriter fio = new BufferedWriter(new FileWriter(member, true));
+            fio.write(memberName);
 
             fio.write('\r');
             fio.close();
@@ -93,23 +103,4 @@ public class Output {
         }
     }
 
-    //숫자 잘못 입력한 경우
-    private int sideNoCheck(){
-
-        Scn scn = new Scn();
-
-        System.out.println("1 또는 2 를 입력해주세요.");
-
-        int check = scn.scnInt();
-
-        while(check < 1 || check > 2){
-
-            System.out.println("1 또는 2 를 입력해주세요.");
-
-            check = scn.scnInt();
-
-        }
-
-        return check;
-    }
 }
