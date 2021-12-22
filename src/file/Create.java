@@ -68,7 +68,7 @@ public class Create {
 
     }
 
-    //숫자 잘못 입력한 경우
+    //숫자 잘못 입력한 경우1
     private int sideNoCheck(){
 
         Scn scn = new Scn();
